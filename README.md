@@ -34,6 +34,39 @@ srv.listen(1080, 'localhost', function() {
 srv.useAuth(socks.auth.None());
 ```
 
+* Server with username/password authentication and allowing all (authenticated) connections:
+
+```javascript
+var socks = require('socksv5');
+
+var srv = socks.createServer(function(info, accept, deny) {
+  accept();
+});
+srv.listen(1080, 'localhost', function() {
+  console.log('SOCKS server listening on port 1080');
+});
+
+srv.useAuth(socks.auth.UserPassword(function(user, password, cb) {
+  cb(user === 'nodejs' && password === 'rules!');
+}));
+```
+
+* Server with no authentication and redirecting all connections to localhost:
+
+```javascript
+var socks = require('socksv5');
+
+var srv = socks.createServer(function(info, accept, deny) {
+  info.dstAddr = 'localhost';
+  accept();
+});
+srv.listen(1080, 'localhost', function() {
+  console.log('SOCKS server listening on port 1080');
+});
+
+srv.useAuth(socks.auth.None());
+```
+
 * Server with no authentication and denying all connections not made to port 80:
 
 ```javascript
@@ -50,23 +83,6 @@ srv.listen(1080, 'localhost', function() {
 });
 
 srv.useAuth(socks.auth.None());
-```
-
-* Server with username/password authentication and allowing all (authenticated) connections:
-
-```javascript
-var socks = require('socksv5');
-
-var srv = socks.createServer(function(info, accept, deny) {
-  accept();
-});
-srv.listen(1080, 'localhost', function() {
-  console.log('SOCKS server listening on port 1080');
-});
-
-srv.useAuth(socks.auth.UserPassword(function(user, password, cb) {
-  cb(user === 'nodejs' && password === 'rules!');
-}));
 ```
 
 * Server with no authentication, intercepting all connections to port 80, and passing through all others:
