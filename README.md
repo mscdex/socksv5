@@ -69,7 +69,7 @@ srv.useAuth(socks.auth.UserPassword(function(user, password, cb) {
 }));
 ```
 
-* Server with no authentication, hijacking all connections to port 80, and passing through all others:
+* Server with no authentication, intercepting all connections to port 80, and passing through all others:
 
 ```javascript
 var socks = require('socksv5');
@@ -131,7 +131,7 @@ These are the same as [net.Server](http://nodejs.org/docs/latest/api/net.html#ne
 
     * **dstPort** - _integer_ - The destination port that the client has requested.
 
-    `accept` has a boolean parameter which if set to `true`, will return the underlying `net.Socket` for you to read from/write to, allowing you to hijack the request instead of proxying the connection to its intended destination.
+    `accept` has a boolean parameter which if set to `true`, will return the underlying `net.Socket` for you to read from/write to, allowing you to intercept the request instead of proxying the connection to its intended destination.
 
 
 Server methods
