@@ -114,6 +114,25 @@ srv.listen(1080, 'localhost', function() {
 srv.useAuth(socks.auth.None());
 ```
 
+* Client with no authentication:
+
+```javascript
+var socks = require('socksv5');
+
+var client = socks.connect({
+  host: 'google.com',
+  port: 80,
+  proxyHost: '127.0.0.1',
+  proxyPort: 1080
+}, function(socket) {
+  console.log('>> Connection successful');
+  socket.write('GET /node.js/rules HTTP/1.0\r\n\r\n');
+  socket.pipe(process.stdout);
+});
+
+client.useAuth(socks.auth.None());
+```
+
 
 API
 ===
@@ -125,11 +144,25 @@ Exports
 
 * **createServer**([< _function_ >connectionListener]) - _Server_ - Similar to `net.createServer()`.
 
-* **auth** - An object containing built-in authentication handlers for Server instances:
+* **Server** - A class representing a SOCKS server.
 
-    * **None**() - Returns an authentication handler that permits no authentication.
+* **connect**(< _object_ >options[, < _function_ >connectListener]) - _Client_ - `options` must contain `port`, `proxyHost`, and `proxyPort`. If `host` is not provided, it defaults to 'localhost'.
 
-    * **UserPassword**(< _function_ >validateUser) - Returns an authentication handler that permits username/password authentication. `validateUser` is passed the username, password, and a callback that you call with a boolean indicating whether the username/password is valid.
+* **createConnection**(< _object_ >options[, < _function_ >connectListener]) - _Client_ - Aliased to `connect()`.
+
+* **auth** - An object containing built-in authentication handlers for Client and Server instances:
+
+    * **Server**
+
+        * **None**() - Returns an authentication handler that permits no authentication.
+
+        * **UserPassword**(< _function_ >validateUser) - Returns an authentication handler that permits username/password authentication. `validateUser` is passed the username, password, and a callback that you call with a boolean indicating whether the username/password is valid.
+
+    * **Client**
+
+        * **None**() - Returns an authentication handler that uses no authentication.
+
+        * **UserPassword**(< _string_ >username, < _string_ >password) - Returns an authentication handler that uses username/password authentication.
 
 
 Server events
@@ -154,5 +187,31 @@ Server methods
 --------------
 
 These are the same as [net.Server](http://nodejs.org/docs/latest/api/net.html#net_class_net_server) methods, with the following exception(s):
+
+* **useAuth**(< _function_ >authHandler) - _Server_ - Appends the `authHandler` to a list of authentication methods to allow for clients. This list's order is preserved and the first authentication method to match that of the client's list "wins." Returns the Server instance for chaining.
+
+
+Client events
+-------------
+
+* **connect**(< _Socket_ >connection) - Emitted when handshaking/negotiation is complete and you are free to read from/write to the connected socket.
+
+* **error**(< _Error_ >err) - Emitted when a parser, socket (during handshaking/negotiation), or DNS (if `localDNS` and `strictLocalDNS` are `true`) error occurs.
+
+
+Client methods
+--------------
+
+* **(constructor)**(< _object_ >config) - Returns a new Client instance using these possible `config` properties:
+
+    * **proxyHost** - _string_ - The address of the proxy to connect to (defaults to 'localhost').
+
+    * **proxyPort** - _integer_ - The port of the proxy to connect to (defaults to 1080).
+
+    * **localDNS** - _boolean_ - If `true`, the client will try to resolve the destination hostname locally. Otherwise, the client will always pass the destination hostname to the proxy server for resolving (defaults to true).
+
+    * **strictLocalDNS** - _boolean_ - If `true`, the client gives up if the destination hostname cannot be resolved locally. Otherwise, the client will continue and pass the destination hostname to the proxy server for resolving (defaults to true).
+
+* **connect**(< _mixed_ >options[, < _function_ >connectListener]) - _Client_ - Similar to `net.Socket.connect()`. Additionally, if `options` is an object, you can also set `localDNS` and `strictLocalDNS` to override the same settings passed to the constructor.
 
 * **useAuth**(< _function_ >authHandler) - _Server_ - Appends the `authHandler` to a list of authentication methods to allow for clients. This list's order is preserved and the first authentication method to match that of the client's list "wins." Returns the Server instance for chaining.
