@@ -1,5 +1,5 @@
 { "name": "socksv5",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": "Brian White <mscdex@mscdex.net>",
   "description": "SOCKS protocol version 5 server and client implementations for node.js",
   "main": "./index",
