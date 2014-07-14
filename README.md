@@ -198,6 +198,8 @@ Client events
 
 * **error**(< _Error_ >err) - Emitted when a parser, socket (during handshaking/negotiation), or DNS (if `localDNS` and `strictLocalDNS` are `true`) error occurs.
 
+* **close**(< _boolean_ >had_error) - Emitted when the client is closed (due to error and/or socket closed).
+
 
 Client methods
 --------------
