@@ -11,14 +11,13 @@ var t = -1,
 
 var tests = [
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           methods;
       parser.on('methods', function(m) {
         methods = m;
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
@@ -32,14 +31,13 @@ var tests = [
     what: 'Phase 1 - Valid (whole)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           methods;
       parser.on('methods', function(m) {
         methods = m;
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
@@ -55,14 +53,13 @@ var tests = [
     what: 'Phase 1 - Valid (split)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -76,14 +73,13 @@ var tests = [
     what: 'Phase 1 - Bad version'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -97,13 +93,12 @@ var tests = [
     what: 'Phase 1 - Bad method count'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -128,13 +123,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - CONNECT (IPv4)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -159,13 +153,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - BIND (IPv4)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -190,13 +183,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - UDP ASSOCIATE (IPv4)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -223,13 +215,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - CONNECT (IPv6)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -255,13 +246,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - CONNECT (Hostname)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
       }).on('request', function(r) {
         request = r;
@@ -288,15 +278,14 @@ var tests = [
     what: 'Phase 2 - Valid (split) - CONNECT (Hostname)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -315,15 +304,14 @@ var tests = [
     what: 'Phase 2 - Bad version'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -342,15 +330,14 @@ var tests = [
     what: 'Phase 2 - Bad command'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('methods', function(m) {
+      parser.on('methods', function() {
         assert(false, makeMsg(what, 'Unexpected methods event'));
-      }).on('request', function(r) {
+      }).on('request', function() {
         assert(false, makeMsg(what, 'Unexpected request event'));
       }).on('error', function(err) {
         errors.push(err);

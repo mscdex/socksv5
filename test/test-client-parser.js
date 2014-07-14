@@ -3,7 +3,6 @@ var Parser = require('../lib/client.parser');
 var EventEmitter = require('events').EventEmitter,
     path = require('path'),
     assert = require('assert'),
-    inspect = require('util').inspect
     inherits = require('util').inherits;
 
 var t = -1,
@@ -11,14 +10,13 @@ var t = -1,
 
 var tests = [
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           method;
       parser.on('method', function(m) {
         method = m;
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
@@ -31,14 +29,13 @@ var tests = [
     what: 'Phase 1 - Valid (whole)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           method;
       parser.on('method', function(m) {
         method = m;
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
@@ -52,14 +49,13 @@ var tests = [
     what: 'Phase 1 - Valid (split)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -73,13 +69,12 @@ var tests = [
     what: 'Phase 1 - Bad version'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           reply;
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
       }).on('reply', function(r) {
         reply = r;
@@ -100,13 +95,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - Success (IPv4)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           reply;
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
       }).on('reply', function(r) {
         reply = r;
@@ -130,13 +124,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - Success (IPv6)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           reply;
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
       }).on('reply', function(r) {
         reply = r;
@@ -159,13 +152,12 @@ var tests = [
     what: 'Phase 2 - Valid (whole) - Success (Hostname)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           reply;
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
       }).on('reply', function(r) {
         reply = r;
@@ -186,15 +178,14 @@ var tests = [
     what: 'Phase 2 - Valid (split) - Success (Hostname)'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -208,15 +199,14 @@ var tests = [
     what: 'Phase 2 - Valid - Error'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         errors.push(err);
@@ -230,15 +220,14 @@ var tests = [
     what: 'Phase 2 - Bad version'
   },
   { run: function() {
-      var self = this,
-          what = this.what,
+      var what = this.what,
           stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
-      parser.on('method', function(m) {
+      parser.on('method', function() {
         assert(false, makeMsg(what, 'Unexpected method event'));
-      }).on('reply', function(r) {
+      }).on('reply', function() {
         assert(false, makeMsg(what, 'Unexpected reply event'));
       }).on('error', function(err) {
         errors.push(err);
