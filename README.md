@@ -152,13 +152,13 @@ Exports
 
 * **auth** - An object containing built-in authentication handlers for Client and Server instances:
 
-    * **Server**
+    * **(Server usage)**
 
         * **None**() - Returns an authentication handler that permits no authentication.
 
         * **UserPassword**(< _function_ >validateUser) - Returns an authentication handler that permits username/password authentication. `validateUser` is passed the username, password, and a callback that you call with a boolean indicating whether the username/password is valid.
 
-    * **Client**
+    * **(Client usage)**
 
         * **None**() - Returns an authentication handler that uses no authentication.
 
