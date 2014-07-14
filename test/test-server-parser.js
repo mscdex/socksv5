@@ -3,7 +3,8 @@ var Parser = require('../lib/server.parser');
 var EventEmitter = require('events').EventEmitter,
     path = require('path'),
     assert = require('assert'),
-    inspect = require('util').inspect;
+    inspect = require('util').inspect,
+    inherits = require('util').inherits;
 
 var t = -1,
     group = path.basename(__filename, '.js') + '/';
@@ -12,7 +13,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           methods;
       parser.on('methods', function(m) {
@@ -33,7 +34,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           methods;
       parser.on('methods', function(m) {
@@ -56,7 +57,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.on('methods', function(m) {
@@ -77,7 +78,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.on('methods', function(m) {
@@ -98,7 +99,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -129,7 +130,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -160,7 +161,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -191,7 +192,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -224,7 +225,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -256,7 +257,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           request;
       parser.authed = true;
@@ -289,7 +290,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
@@ -316,7 +317,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
@@ -343,7 +344,7 @@ var tests = [
   { run: function() {
       var self = this,
           what = this.what,
-          stream = new EventEmitter(),
+          stream = new FakeStream(),
           parser = new Parser(stream),
           errors = [];
       parser.authed = true;
@@ -390,5 +391,15 @@ process.once('exit', function() {
          makeMsg('_exit',
                  'Only finished ' + (t + 1) + '/' + tests.length + ' tests'));
 });
+
+
+
+function FakeStream() {
+  EventEmitter.call(this);
+}
+inherits(FakeStream, EventEmitter);
+FakeStream.prototype.pause = function() {};
+FakeStream.prototype.resume = function() {};
+
 
 next();
