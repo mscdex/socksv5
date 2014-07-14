@@ -144,7 +144,7 @@ Exports
 
 * **createServer**([< _function_ >connectionListener]) - _Server_ - Similar to `net.createServer()`.
 
-* **Server** - A class representing a SOCKS server.
+* **Client** - A class representing a SOCKS client.
 
 * **connect**(< _object_ >options[, < _function_ >connectListener]) - _Client_ - `options` must contain `port`, `proxyHost`, and `proxyPort`. If `host` is not provided, it defaults to 'localhost'.
 
