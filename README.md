@@ -133,6 +133,50 @@ var client = socks.connect({
 client.useAuth(socks.auth.None());
 ```
 
+* Proxying an HTTP(s) requests using a custom Agent:
+
+```javascript
+var socks = require('socksv5');
+var http = require('http');
+
+http.get({
+  host: 'google.com',
+  port: 80,
+  method: 'HEAD',
+  path: '/',
+  agent: new socks.HttpAgent({
+    proxyHost: 'localhost',
+    proxyPort: 1080,
+    auths: [
+      socks.auth.None()
+    ]
+  })
+}, function(res) {
+  res.resume();
+  console.log(res.statusCode, res.headers);
+});
+
+// and https too:
+var https = require('https');
+
+https.get({
+  host: 'google.com',
+  port: 443,
+  method: 'HEAD',
+  path: '/',
+  agent: new socks.HttpsAgent({
+    proxyHost: 'localhost',
+    proxyPort: 1080,
+    auths: [
+      socks.auth.None()
+    ]
+  })
+}, function(res) {
+  res.resume();
+  console.log(res.statusCode, res.headers);
+});
+```
+
 
 API
 ===
@@ -164,6 +208,10 @@ Exports
 
         * **UserPassword**(< _string_ >username, < _string_ >password) - Returns an authentication handler that uses username/password authentication.
 
+* **HttpAgent** - An Agent class you can use with `http.request()`/`http.get()`. Just pass in a configuration object like you would to the Client constructor or `connect()`.
+
+* **HttpsAgent** - Same as `HttpAgent` except it is for use with `https.request()`/`https.get()`.
+
 
 Server events
 -------------
@@ -187,6 +235,10 @@ Server methods
 --------------
 
 These are the same as [net.Server](http://nodejs.org/docs/latest/api/net.html#net_class_net_server) methods, with the following exception(s):
+
+* **(constructor)**([< _object_ >options[, < _function_ >connectionListener]]) - Similar to `net.Server` constructor with the following extra `options` available:
+
+    * **auths** - _array_ - A pre-defined list of authentication handlers to use (instead of manually calling `useAuth()` multiple times).
 
 * **useAuth**(< _function_ >authHandler) - _Server_ - Appends the `authHandler` to a list of authentication methods to allow for clients. This list's order is preserved and the first authentication method to match that of the client's list "wins." Returns the Server instance for chaining.
 
@@ -214,6 +266,8 @@ Client methods
 
     * **strictLocalDNS** - _boolean_ - If `true`, the client gives up if the destination hostname cannot be resolved locally. Otherwise, the client will continue and pass the destination hostname to the proxy server for resolving (defaults to true).
 
-* **connect**(< _mixed_ >options[, < _function_ >connectListener]) - _Client_ - Similar to `net.Socket.connect()`. Additionally, if `options` is an object, you can also set `localDNS` and `strictLocalDNS` to override the same settings passed to the constructor.
+    * **auths** - _array_ - A pre-defined list of authentication handlers to use (instead of manually calling `useAuth()` multiple times).
+
+* **connect**(< _mixed_ >options[, < _function_ >connectListener]) - _Client_ - Similar to `net.Socket.connect()`. Additionally, if `options` is an object, you can also set the same settings passed to the constructor.
 
 * **useAuth**(< _function_ >authHandler) - _Server_ - Appends the `authHandler` to a list of authentication methods to allow for clients. This list's order is preserved and the first authentication method to match that of the client's list "wins." Returns the Server instance for chaining.
