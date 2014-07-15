@@ -139,18 +139,20 @@ client.useAuth(socks.auth.None());
 var socks = require('socksv5');
 var http = require('http');
 
+var socksConfig = {
+  proxyHost: 'localhost',
+  proxyPort: 1080,
+  auths: [
+    socks.auth.None()
+  ]
+};
+
 http.get({
   host: 'google.com',
   port: 80,
   method: 'HEAD',
   path: '/',
-  agent: new socks.HttpAgent({
-    proxyHost: 'localhost',
-    proxyPort: 1080,
-    auths: [
-      socks.auth.None()
-    ]
-  })
+  agent: new socks.HttpAgent(socksConfig)
 }, function(res) {
   res.resume();
   console.log(res.statusCode, res.headers);
@@ -164,13 +166,7 @@ https.get({
   port: 443,
   method: 'HEAD',
   path: '/',
-  agent: new socks.HttpsAgent({
-    proxyHost: 'localhost',
-    proxyPort: 1080,
-    auths: [
-      socks.auth.None()
-    ]
-  })
+  agent: new socks.HttpsAgent(socksConfig)
 }, function(res) {
   res.resume();
   console.log(res.statusCode, res.headers);
