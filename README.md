@@ -133,7 +133,7 @@ var client = socks.connect({
 client.useAuth(socks.auth.None());
 ```
 
-* Proxying an HTTP(s) requests using a custom Agent:
+* HTTP(s) client requests using a SOCKS Agent:
 
 ```javascript
 var socks = require('socksv5');
