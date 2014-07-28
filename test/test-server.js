@@ -40,7 +40,8 @@ var tests = [
                     'http://localhost:' + httpServer.address().port];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
-          assert(!err, makeMsg(what, 'Unexpected client error: ' + stderr));
+          assert(!err, makeMsg(what, 'Unexpected client error: '
+                                     + extractCurlError(stderr)));
           assert(stdout === HTTP_RESPONSE,
                  makeMsg(what, 'Response mismatch'));
           assert(conns.length === 1,
@@ -82,7 +83,8 @@ var tests = [
                     'http://localhost:' + httpServer.address().port];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
-          assert(!err, makeMsg(what, 'Unexpected client error: ' + stderr));
+          assert(!err, makeMsg(what, 'Unexpected client error: '
+                                     + extractCurlError(stderr)));
           assert(stdout === HTTP_RESPONSE,
                  makeMsg(what, 'Response mismatch'));
           assert(conns.length === 1,
@@ -203,7 +205,8 @@ var tests = [
                     'http://localhost:' + httpServer.address().port];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
-          assert(!err, makeMsg(what, 'Unexpected client error: ' + stderr));
+          assert(!err, makeMsg(what, 'Unexpected client error: '
+                                     + extractCurlError(stderr)));
           assert(stdout === body,
                  makeMsg(what, 'Response mismatch'));
           assert(conns.length === 1,
@@ -215,6 +218,11 @@ var tests = [
     what: 'Intercept connection'
   },
 ];
+
+function extractCurlError(stderr) {
+  var m;
+  return ((m = /(curl: \(\d+\)[\s\S]+)/i.exec(stderr)) && m[1].trim()) || stderr;
+}
 
 function next() {
   if (t === tests.length - 1)
