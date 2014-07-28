@@ -217,6 +217,43 @@ var tests = [
     },
     what: 'Intercept connection'
   },
+  { run: function() {
+      var what = this.what,
+          conns = [],
+          server;
+      server = createServer(function(info, accept) {
+        assert(info.cmd === 'connect',
+               makeMsg(what, 'Unexpected command: ' + info.cmd));
+        assert(typeof info.srcAddr === 'string' && info.srcAddr.length,
+               makeMsg(what, 'Bad srcAddr'));
+        assert(typeof info.srcPort === 'number' && info.srcPort > 0,
+               makeMsg(what, 'Bad srcPort'));
+        assert(typeof info.dstAddr === 'string' && info.dstAddr.length,
+               makeMsg(what, 'Bad dstAddr'));
+        assert(typeof info.dstPort === 'number' && info.dstPort > 0,
+               makeMsg(what, 'Bad dstPort'));
+        conns.push(info);
+        accept();
+      });
+
+      server.useAuth(auth.None());
+      server.maxConnections = 0;
+
+      server.listen(0, 'localhost', function() {
+        var args = ['--socks5',
+                    'localhost:' + this.address().port,
+                    'http://localhost:' + httpServer.address().port];
+        cpexec('curl', args, function(err, stdout, stderr) {
+          server.close();
+          assert(err, makeMsg(what, 'Expected client error'));
+          assert(conns.length === 0,
+                 makeMsg(what, 'Wrong number of connections'));
+          next();
+        });
+      });
+    },
+    what: 'maxConnections'
+  },
 ];
 
 function extractCurlError(stderr) {
