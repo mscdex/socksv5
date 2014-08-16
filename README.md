@@ -123,14 +123,13 @@ var client = socks.connect({
   host: 'google.com',
   port: 80,
   proxyHost: '127.0.0.1',
-  proxyPort: 1080
+  proxyPort: 1080,
+  auths: [ socks.auth.None() ]
 }, function(socket) {
   console.log('>> Connection successful');
   socket.write('GET /node.js/rules HTTP/1.0\r\n\r\n');
   socket.pipe(process.stdout);
 });
-
-client.useAuth(socks.auth.None());
 ```
 
 * HTTP(s) client requests using a SOCKS Agent:
@@ -142,9 +141,7 @@ var http = require('http');
 var socksConfig = {
   proxyHost: 'localhost',
   proxyPort: 1080,
-  auths: [
-    socks.auth.None()
-  ]
+  auths: [ socks.auth.None() ]
 };
 
 http.get({
