@@ -9,9 +9,9 @@
   "dependencies": {
     "ipv6": "*"
   },
-  "bundledDependencies": {
-    "ipv6": "*"
-  },
+  "bundledDependencies": [
+    "ipv6"
+  ],
   "engines": { "node": ">=0.10.0" },
   "keywords": [ "socks", "socks5", "socksv5", "proxy" ],
   "licenses": [ { "type": "MIT", "url": "http://github.com/mscdex/socksv5/raw/master/LICENSE" } ],
