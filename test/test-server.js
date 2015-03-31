@@ -1,7 +1,8 @@
 var auth = require('../index').auth,
     createServer = require('../index').createServer;
 
-var cpexec = require('child_process').execFile,
+var Socket = require('net').Socket,
+    cpexec = require('child_process').execFile,
     http = require('http'),
     path = require('path'),
     assert = require('assert');
@@ -253,6 +254,41 @@ var tests = [
       });
     },
     what: 'maxConnections'
+  },
+  { run: function() {
+      var what = this.what,
+          conns = [],
+          server;
+      server = createServer(function(info, accept) {
+        assert(false,
+               makeMsg(what, 'Should not get here for bad client version'));
+      });
+
+      server.useAuth(auth.None());
+
+      server.listen(0, 'localhost', function() {
+        var clientSock,
+            tmr;
+
+        clientSock = new Socket();
+        clientSock.on('error', function(err) {
+          // ignore errors
+        }).on('close', function() {
+          assert(tmr !== undefined, makeMsg(what, 'Socket did not connect'));
+          clearTimeout(tmr);
+          server.close();
+          next();
+        }).on('connect', function() {
+          tmr = setTimeout(function() {
+            assert(false,
+                   makeMsg(what,
+                           'Timeout while waiting for bad client socket end'));
+          }, 100);
+          clientSock.write(new Buffer([0x04, 0x01, 0x00]));
+        }).connect(this.address().port, 'localhost');
+      });
+    },
+    what: 'Disconnect socket on parser error'
   },
 ];
 
