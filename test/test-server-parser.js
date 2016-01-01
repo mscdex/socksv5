@@ -199,15 +199,16 @@ var tests = [
                                       0x01,
                                       0x00,
                                       0x04,
-                                      0xFF, 0xFE, 0xFD, 0xFC, 0xFB, 0xFA,
-                                       0xF9, 0xF8, 0xF7, 0xF6, 0xF5, 0xF4,
-                                       0xF3, 0xF2, 0xF1, 0xF0,
+                                      0xFF, 0xFE, 0xE0, 0xD0,
+                                       0x00, 0x0C, 0x00, 0xA0,
+                                       0x00, 0x00, 0x03, 0x00,
+                                       0x00, 0x02, 0xB0, 0x01,
                                       0x08, 0x40]));
       assert.deepEqual(request,
                        { cmd: 'connect',
                          srcAddr: undefined,
                          srcPort: undefined,
-                         dstAddr: 'fffe:fdfc:fbfa:f9f8:f7f6:f5f4:f3f2:f1f0',
+                         dstAddr: 'fffe:e0d0:000c:00a0:0000:0300:0002:b001',
                          dstPort: 2112 },
                        makeMsg(what, 'Request mismatch'));
       next();
