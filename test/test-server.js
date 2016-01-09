@@ -9,7 +9,9 @@ var Socket = require('net').Socket,
 
 var t = -1,
     group = path.basename(__filename, '.js') + '/',
-    httpServer;
+    httpServer,
+    httpAddr,
+    httpPort;
 
 var HTTP_RESPONSE = 'hello from the node.js http server!';
 
@@ -37,8 +39,8 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
-                    'http://localhost:' + httpServer.address().port];
+                    this.address().address + ':' + this.address().port,
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
           assert(!err, makeMsg(what, 'Unexpected client error: '
@@ -78,10 +80,10 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
+                    this.address().address + ':' + this.address().port,
                     '-U',
                     'nodejs:rules',
-                    'http://localhost:' + httpServer.address().port];
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
           assert(!err, makeMsg(what, 'Unexpected client error: '
@@ -110,10 +112,10 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
+                    this.address().address + ':' + this.address().port,
                     '-U',
                     'php:rules',
-                    'http://localhost:' + httpServer.address().port];
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err) {
           server.close();
           assert(err, makeMsg(what, 'Expected client error'));
@@ -139,8 +141,8 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
-                    'http://localhost:' + httpServer.address().port];
+                    this.address().address + ':' + this.address().port,
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err) {
           server.close();
           assert(err, makeMsg(what, 'Expected client error'));
@@ -165,8 +167,8 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
-                    'http://localhost:' + httpServer.address().port];
+                    this.address().address + ':' + this.address().port,
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err) {
           server.close();
           assert(err, makeMsg(what, 'Expected client error'));
@@ -202,8 +204,8 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
-                    'http://localhost:' + httpServer.address().port];
+                    this.address().address + ':' + this.address().port,
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
           assert(!err, makeMsg(what, 'Unexpected client error: '
@@ -242,8 +244,8 @@ var tests = [
 
       server.listen(0, 'localhost', function() {
         var args = ['--socks5',
-                    'localhost:' + this.address().port,
-                    'http://localhost:' + httpServer.address().port];
+                    this.address().address + ':' + this.address().port,
+                    'http://' + httpAddr + ':' + httpPort];
         cpexec('curl', args, function(err, stdout, stderr) {
           server.close();
           assert(err, makeMsg(what, 'Expected client error'));
@@ -343,5 +345,9 @@ cpexec('curl', ['--help'], function(err) {
     res.statusCode = 200;
     res.end(HTTP_RESPONSE);
   });
-  httpServer.listen(0, 'localhost', next);
+  httpServer.listen(0, 'localhost', function() {
+    httpAddr = this.address().address;
+    httpPort = this.address().port;
+    next();
+  });
 });
