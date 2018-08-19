@@ -21,7 +21,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05, 0xFF]));
+      stream.emit('data', Buffer.from([0x05, 0xFF]));
       assert(method === 0xFF,
              makeMsg(what, 'Unexpected method: ' + method));
       next();
@@ -40,8 +40,8 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05]));
-      stream.emit('data', new Buffer([0x09]));
+      stream.emit('data', Buffer.from([0x05]));
+      stream.emit('data', Buffer.from([0x09]));
       assert(method === 0x09,
              makeMsg(what, 'Unexpected method: ' + method));
       next();
@@ -60,7 +60,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x04, 0x09]));
+      stream.emit('data', Buffer.from([0x04, 0x09]));
       assert(errors.length === 1
              && /Incompatible SOCKS protocol version: 4/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));
@@ -81,7 +81,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x00,
                                       0x00,
                                       0x01,
@@ -107,7 +107,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x00,
                                       0x00,
                                       0x04,
@@ -136,7 +136,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x00,
                                       0x00,
                                       0x03,
@@ -164,11 +164,11 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05, 0x00]));
-      stream.emit('data', new Buffer([0x00, 0x03, 0x0A, 0x6E, 0x6F, 0x64, 0x65]));
-      stream.emit('data', new Buffer([0x6A, 0x73, 0x2E, 0x6F, 0x72]));
-      stream.emit('data', new Buffer([0x67, 0x05]));
-      stream.emit('data', new Buffer([0x39]));
+      stream.emit('data', Buffer.from([0x05, 0x00]));
+      stream.emit('data', Buffer.from([0x00, 0x03, 0x0A, 0x6E, 0x6F, 0x64, 0x65]));
+      stream.emit('data', Buffer.from([0x6A, 0x73, 0x2E, 0x6F, 0x72]));
+      stream.emit('data', Buffer.from([0x67, 0x05]));
+      stream.emit('data', Buffer.from([0x39]));
       assert.deepEqual(reply,
                        { bndAddr: 'nodejs.org',
                          bndPort: 1337 },
@@ -190,7 +190,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x05, 0x02]));
+      stream.emit('data', Buffer.from([0x05, 0x02]));
       assert(errors.length === 1
              && /connection not allowed by ruleset/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));
@@ -211,7 +211,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x04, 0x02]));
+      stream.emit('data', Buffer.from([0x04, 0x02]));
       assert(errors.length === 1
              && /Incompatible SOCKS protocol version: 4/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));
@@ -232,11 +232,11 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x05, 0x00]));
-      stream.emit('data', new Buffer([0x00, 0xFF, 0x0A, 0x6E, 0x6F, 0x64, 0x65]));
-      stream.emit('data', new Buffer([0x6A, 0x73, 0x2E, 0x6F, 0x72]));
-      stream.emit('data', new Buffer([0x67, 0x05]));
-      stream.emit('data', new Buffer([0x39]));
+      stream.emit('data', Buffer.from([0x05, 0x00]));
+      stream.emit('data', Buffer.from([0x00, 0xFF, 0x0A, 0x6E, 0x6F, 0x64, 0x65]));
+      stream.emit('data', Buffer.from([0x6A, 0x73, 0x2E, 0x6F, 0x72]));
+      stream.emit('data', Buffer.from([0x67, 0x05]));
+      stream.emit('data', Buffer.from([0x39]));
       assert(errors.length === 1
              && /Invalid request address type: 255/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));

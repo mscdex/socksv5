@@ -286,7 +286,7 @@ var tests = [
                    makeMsg(what,
                            'Timeout while waiting for bad client socket end'));
           }, 100);
-          clientSock.write(new Buffer([0x04, 0x01, 0x00]));
+          clientSock.write(Buffer.from([0x04, 0x01, 0x00]));
         }).connect(this.address().port, 'localhost');
       });
     },
