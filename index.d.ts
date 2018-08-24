@@ -1,5 +1,5 @@
 
-declare module "socksv5/lib/Agents" {
+declare module "@outtacontrol/socks/lib/Agents" {
     import { EventEmitter } from "events";
     import { Client, createConnection } from "socksv5/lib/client";
 
@@ -71,7 +71,7 @@ declare module "socksv5/lib/Agents" {
     export class HttpsAgent extends Agent { }
 }
 
-declare module "socksv5/lib/auth" {
+declare module "@outtacontrol/socks/lib/auth" {
     import { Socket } from "net";
 
     export interface AuthCallback {
@@ -85,12 +85,12 @@ declare module "socksv5/lib/auth" {
     }
 }
 
-declare module "socksv5/lib/auth/None" {
+declare module "@outtacontrol/socks/lib/auth/None" {
     import { Auth } from "socksv5/lib/auth";
     export default function None(): Auth;
 }
 
-declare module "socksv5/lib/auth/UserPassword" {
+declare module "@outtacontrol/socks/lib/auth/UserPassword" {
     import { Auth } from "socksv5/lib/auth";
 
     export interface DoneCallback {
@@ -105,7 +105,7 @@ declare module "socksv5/lib/auth/UserPassword" {
     export default function UserPassword(authCallback: AuthCallback): Auth;
 }
 
-declare module "socksv5/lib/client" {
+declare module "@outtacontrol/socks/lib/client" {
     import { EventEmitter } from "events";
 
     export interface SocksClientOptions {
@@ -195,7 +195,7 @@ declare module "socksv5/lib/client" {
     export function createConnection(path: string, listener?: () => void): Client;
 }
 
-declare module "socksv5/lib/client.parser" {
+declare module "@outtacontrol/socks/lib/client.parser" {
     import { Socket } from "net";
     import { EventEmitter } from "events";
     import { SocksBoundAddress, SocksProxyInfo } from "socksv5";
@@ -237,7 +237,7 @@ declare module "socksv5/lib/client.parser" {
     }
 }
 
-declare module "socksv5/lib/constants" {
+declare module "@outtacontrol/socks/lib/constants" {
 
     interface SocksCMD {
         CONNECT: number;
@@ -268,7 +268,7 @@ declare module "socksv5/lib/constants" {
     export const REP: SocksREP;
 }
 
-declare module "socksv5/lib/server" {
+declare module "@outtacontrol/socks/lib/server" {
     import { EventEmitter } from "events";
     import { Auth } from "socksv5/lib/auth";
     import { Socket, AddressInfo } from "net";
@@ -352,7 +352,7 @@ declare module "socksv5/lib/server" {
     export function createServer(options: SocksServerOptions, connectionListener: SocksConnectionCallback): Server;
 }
 
-declare module "socksv5/lib/server.parser" {
+declare module "@outtacontrol/socks/lib/server.parser" {
     import { Socket } from "net";
     import { SocksProxyInfo, SocksBoundAddress } from "socksv5";
     export default class Parser {
@@ -392,7 +392,7 @@ declare module "socksv5/lib/server.parser" {
     }
 }
 
-declare module "socksv5" {
+declare module "@outtacontrol/socks" {
     import None from "socksv5/lib/auth/None";
     import UserPassword from "socksv5/lib/auth/UserPassword";
 
