@@ -279,8 +279,12 @@ declare module "socksv5/lib/server" {
         (intercept: true): Socket;
     }
 
+    export interface SocksDenyCallback {
+        (): void;
+    }
+
     export interface SocksConnectionCallback {
-        (info: SocksProxyInfo, accept: SocksAcceptCallback, deny: () => void);
+        (info: SocksProxyInfo, accept: SocksAcceptCallback, deny: SocksDenyCallback);
     }
 
     export interface SocksServerOptions {
