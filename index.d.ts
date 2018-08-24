@@ -1,7 +1,7 @@
 
 declare module "@outtacontrol/socks/lib/Agents" {
     import { EventEmitter } from "events";
-    import { Client, createConnection } from "socksv5/lib/client";
+    import { Client, createConnection } from "@outtacontrol/socks/lib/client";
 
     export interface SocksAgentOptions {
         /**
@@ -86,12 +86,12 @@ declare module "@outtacontrol/socks/lib/auth" {
 }
 
 declare module "@outtacontrol/socks/lib/auth/None" {
-    import { Auth } from "socksv5/lib/auth";
+    import { Auth } from "@outtacontrol/socks/lib/auth";
     export default function None(): Auth;
 }
 
 declare module "@outtacontrol/socks/lib/auth/UserPassword" {
-    import { Auth } from "socksv5/lib/auth";
+    import { Auth } from "@outtacontrol/socks/lib/auth";
 
     export interface DoneCallback {
         (success: boolean): void;
@@ -198,7 +198,7 @@ declare module "@outtacontrol/socks/lib/client" {
 declare module "@outtacontrol/socks/lib/client.parser" {
     import { Socket } from "net";
     import { EventEmitter } from "events";
-    import { SocksBoundAddress, SocksProxyInfo } from "socksv5";
+    import { SocksBoundAddress, SocksProxyInfo } from "@outtacontrol/socks";
 
     export default class Parser extends EventEmitter {
         constructor(stream: Socket);
@@ -270,9 +270,9 @@ declare module "@outtacontrol/socks/lib/constants" {
 
 declare module "@outtacontrol/socks/lib/server" {
     import { EventEmitter } from "events";
-    import { Auth } from "socksv5/lib/auth";
+    import { Auth } from "@outtacontrol/socks/lib/auth";
     import { Socket, AddressInfo } from "net";
-    import { SocksProxyInfo } from "socksv5";
+    import { SocksProxyInfo } from "@outtacontrol/socks";
 
     export interface SocksAcceptCallback {
         (intercept?: false): void;
@@ -354,7 +354,7 @@ declare module "@outtacontrol/socks/lib/server" {
 
 declare module "@outtacontrol/socks/lib/server.parser" {
     import { Socket } from "net";
-    import { SocksProxyInfo, SocksBoundAddress } from "socksv5";
+    import { SocksProxyInfo, SocksBoundAddress } from "@outtacontrol/socks";
     export default class Parser {
         constructor(stream: Socket);
         start(): void;
@@ -393,8 +393,8 @@ declare module "@outtacontrol/socks/lib/server.parser" {
 }
 
 declare module "@outtacontrol/socks" {
-    import None from "socksv5/lib/auth/None";
-    import UserPassword from "socksv5/lib/auth/UserPassword";
+    import None from "@outtacontrol/socks/lib/auth/None";
+    import UserPassword from "@outtacontrol/socks/lib/auth/UserPassword";
 
     export interface SocksBoundAddress {
         bndAddr: string;
@@ -409,9 +409,9 @@ declare module "@outtacontrol/socks" {
         dstPort: number;
     }
 
-    export * from "socksv5/lib/Agents";
-    export * from "socksv5/lib/client";
-    export * from "socksv5/lib/server";
+    export * from "@outtacontrol/socks/lib/Agents";
+    export * from "@outtacontrol/socks/lib/client";
+    export * from "@outtacontrol/socks/lib/server";
 
     export const auth: { None, UserPassword };
 }
