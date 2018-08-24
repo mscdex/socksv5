@@ -2,6 +2,8 @@
 declare module "@outtacontrol/socks/lib/Agents" {
     import { EventEmitter } from "events";
     import { Client, createConnection } from "@outtacontrol/socks/lib/client";
+    import { Socket } from "net";
+    import { ClientRequest, ClientRequestArgs } from "http";
 
     export interface SocksAgentOptions {
         /**
@@ -61,9 +63,9 @@ declare module "@outtacontrol/socks/lib/Agents" {
 
         getName(options?: SocksAgentNameOptions): string;
 
-        addRequest(req, options?: SocksAgentNameOptions): void;
-        createSocket(req, options): Client;
-        removeSocket(socket, options): void;
+        addRequest(req: ClientRequest, options?: SocksAgentNameOptions): void;
+        createSocket(req: ClientRequest, options?: ClientRequestArgs): Client;
+        removeSocket(socket: Socket, options?: ClientRequestArgs): void;
 
         destroy(): void;
     }
@@ -73,6 +75,9 @@ declare module "@outtacontrol/socks/lib/Agents" {
 
 declare module "@outtacontrol/socks/lib/auth" {
     import { Socket } from "net";
+
+    export { None } from "@outtacontrol/socks/lib/auth/None";
+    export { UserPassword } from "@outtacontrol/socks/lib/auth/UserPassword";
 
     export interface AuthCallback {
         (done: boolean): void;
@@ -87,7 +92,7 @@ declare module "@outtacontrol/socks/lib/auth" {
 
 declare module "@outtacontrol/socks/lib/auth/None" {
     import { Auth } from "@outtacontrol/socks/lib/auth";
-    export default function None(): Auth;
+    export function None(): Auth;
 }
 
 declare module "@outtacontrol/socks/lib/auth/UserPassword" {
@@ -101,8 +106,8 @@ declare module "@outtacontrol/socks/lib/auth/UserPassword" {
         (username: string, password: string, callback: DoneCallback): void;
     }
 
-    export default function UserPassword(username: string, password: string): Auth;
-    export default function UserPassword(authCallback: AuthCallback): Auth;
+    export function UserPassword(username: string, password: string): Auth;
+    export function UserPassword(authCallback: AuthCallback): Auth;
 }
 
 declare module "@outtacontrol/socks/lib/client" {
@@ -206,9 +211,9 @@ declare module "@outtacontrol/socks/lib/client.parser" {
         stop(): void;
 
         addListener(event: string, listener: (...args: any[]) => void): this;
-        addListener(event: "method", listener: (method: number) => void);
-        addListener(event: "reply", listener: (info: SocksBoundAddress) => void);
-        addListener(event: "error", listener: (err: Error) => void);
+        addListener(event: "method", listener: (method: number) => void): this;
+        addListener(event: "reply", listener: (info: SocksBoundAddress) => void): this;
+        addListener(event: "error", listener: (err: Error) => void): this;
 
         emit(event: string | symbol, ...args: any[]): boolean;
         emit(event: "method", method: number): boolean;
@@ -216,24 +221,24 @@ declare module "@outtacontrol/socks/lib/client.parser" {
         emit(event: "error", err: Error): boolean;
 
         on(event: string, listener: (...args: any[]) => void): this;
-        on(event: "method", listener: (method: number) => void);
-        on(event: "reply", listener: (info: SocksBoundAddress) => void);
-        on(event: "error", listener: (err: Error) => void);
+        on(event: "method", listener: (method: number) => void): this;
+        on(event: "reply", listener: (info: SocksBoundAddress) => void): this;
+        on(event: "error", listener: (err: Error) => void): this;
 
         once(event: string, listener: (...args: any[]) => void): this;
-        once(event: "method", listener: (method: number) => void);
-        once(event: "reply", listener: (info: SocksBoundAddress) => void);
-        once(event: "error", listener: (err: Error) => void);
+        once(event: "method", listener: (method: number) => void): this;
+        once(event: "reply", listener: (info: SocksBoundAddress) => void): this;
+        once(event: "error", listener: (err: Error) => void): this;
 
         prependListener(event: string, listener: (...args: any[]) => void): this;
-        prependListener(event: "method", listener: (method: number) => void);
-        prependListener(event: "reply", listener: (info: SocksBoundAddress) => void);
-        prependListener(event: "error", listener: (err: Error) => void);
+        prependListener(event: "method", listener: (method: number) => void): this;
+        prependListener(event: "reply", listener: (info: SocksBoundAddress) => void): this;
+        prependListener(event: "error", listener: (err: Error) => void): this;
 
         prependOnceListener(event: string, listener: (...args: any[]) => void): this;
-        prependOnceListener(event: "method", listener: (method: number) => void);
-        prependOnceListener(event: "reply", listener: (info: SocksBoundAddress) => void);
-        prependOnceListener(event: "error", listener: (err: Error) => void);
+        prependOnceListener(event: "method", listener: (method: number) => void): this;
+        prependOnceListener(event: "reply", listener: (info: SocksBoundAddress) => void): this;
+        prependOnceListener(event: "error", listener: (err: Error) => void): this;
     }
 }
 
@@ -284,7 +289,7 @@ declare module "@outtacontrol/socks/lib/server" {
     }
 
     export interface SocksConnectionCallback {
-        (info: SocksProxyInfo, accept: SocksAcceptCallback, deny: SocksDenyCallback);
+        (info: SocksProxyInfo, accept: SocksAcceptCallback, deny: SocksDenyCallback): void;
     }
 
     export interface SocksServerOptions {
@@ -361,9 +366,9 @@ declare module "@outtacontrol/socks/lib/server.parser" {
         stop(): void;
 
         addListener(event: string, listener: (...args: any[]) => void): this;
-        addListener(event: "methods", listener: (methods: Buffer) => void);
-        addListener(event: "request", listener: (info: SocksProxyInfo) => void);
-        addListener(event: "error", listener: (err: Error) => void);
+        addListener(event: "methods", listener: (methods: Buffer) => void): this;
+        addListener(event: "request", listener: (info: SocksProxyInfo) => void): this;
+        addListener(event: "error", listener: (err: Error) => void): this;
 
         emit(event: string | symbol, ...args: any[]): boolean;
         emit(event: "methods", methods: Buffer): boolean;
@@ -371,31 +376,28 @@ declare module "@outtacontrol/socks/lib/server.parser" {
         emit(event: "error", err: Error): boolean;
 
         on(event: string, listener: (...args: any[]) => void): this;
-        on(event: "methods", listener: (methods: Buffer) => void);
-        on(event: "request", listener: (info: SocksProxyInfo) => void);
-        on(event: "error", listener: (err: Error) => void);
+        on(event: "methods", listener: (methods: Buffer) => void): this;
+        on(event: "request", listener: (info: SocksProxyInfo) => void): this;
+        on(event: "error", listener: (err: Error) => void): this;
 
         once(event: string, listener: (...args: any[]) => void): this;
-        once(event: "methods", listener: (methods: Buffer) => void);
-        once(event: "request", listener: (info: SocksProxyInfo) => void);
-        once(event: "error", listener: (err: Error) => void);
+        once(event: "methods", listener: (methods: Buffer) => void): this;
+        once(event: "request", listener: (info: SocksProxyInfo) => void): this;
+        once(event: "error", listener: (err: Error) => void): this;
 
         prependListener(event: string, listener: (...args: any[]) => void): this;
-        prependListener(event: "methods", listener: (methods: Buffer) => void);
-        prependListener(event: "request", listener: (info: SocksProxyInfo) => void);
-        prependListener(event: "error", listener: (err: Error) => void);
+        prependListener(event: "methods", listener: (methods: Buffer) => void): this;
+        prependListener(event: "request", listener: (info: SocksProxyInfo) => void): this;
+        prependListener(event: "error", listener: (err: Error) => void): this;
 
         prependOnceListener(event: string, listener: (...args: any[]) => void): this;
-        prependOnceListener(event: "methods", listener: (methods: Buffer) => void);
-        prependOnceListener(event: "request", listener: (info: SocksProxyInfo) => void);
-        prependOnceListener(event: "error", listener: (err: Error) => void);
+        prependOnceListener(event: "methods", listener: (methods: Buffer) => void): this;
+        prependOnceListener(event: "request", listener: (info: SocksProxyInfo) => void): this;
+        prependOnceListener(event: "error", listener: (err: Error) => void): this;
     }
 }
 
 declare module "@outtacontrol/socks" {
-    import None from "@outtacontrol/socks/lib/auth/None";
-    import UserPassword from "@outtacontrol/socks/lib/auth/UserPassword";
-
     export interface SocksBoundAddress {
         bndAddr: string;
         bndPort: number;
@@ -412,6 +414,5 @@ declare module "@outtacontrol/socks" {
     export * from "@outtacontrol/socks/lib/Agents";
     export * from "@outtacontrol/socks/lib/client";
     export * from "@outtacontrol/socks/lib/server";
-
-    export const auth: { None, UserPassword };
+    export * from "@outtacontrol/socks/lib/auth";
 }

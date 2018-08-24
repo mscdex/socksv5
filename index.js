@@ -1,15 +1,16 @@
-var fs = require('fs'),
-    path = require('path');
+const { HttpAgent, HttpsAgent } = require('./lib/Agents');
+const { None, UserPassword } = require('./lib/auth');
+const { Client, connect, createConnection } = require('./lib/client');
+const { Server, createServer } = require('./lib/server');
 
-['server', 'client', 'Agents'].forEach(function(f) {
-  var exp = require(__dirname + '/lib/' + f),
-      keys = Object.keys(exp);
-  for (var i = 0, len = keys.length; i < len; ++i)
-    exports[keys[i]] = exp[keys[i]];
-});
+exports.auth = { None, UserPassword };
 
-exports.auth = {};
+exports.HttpAgent = HttpAgent;
+exports.HttpsAgent = HttpsAgent;
 
-fs.readdirSync(__dirname + '/lib/auth').forEach(function(f) {
-  exports.auth[path.basename(f, '.js')] = require(__dirname + '/lib/auth/' + f);
-});
+exports.Client = Client;
+exports.connect = connect;
+exports.createConnection = createConnection;
+
+exports.Server = Server;
+exports.createServer = createServer;
