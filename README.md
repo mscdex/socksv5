@@ -7,7 +7,7 @@ SOCKS protocol version 5 server and client implementations for node.js
 Requirements
 ============
 
-* [node.js](http://nodejs.org/) -- v0.10.0 or newer
+* [node.js](http://nodejs.org/) -- v10.x or newer
 
 
 Install
