@@ -1,7 +1,7 @@
 {
   "name": "@outtacontrol/socks",
-  "version": "1.0.2",
-  "author": "Brian White <mscdex@mscdex.net>",
+  "version": "1.0.3",
+  "author": "Brian White <mscdex@mscdex.net>, phoenix344",
   "description": "SOCKS protocol version 5 server and client implementations for node.js",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -9,7 +9,7 @@
     "test": "node test/test.js"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=10"
   },
   "keywords": [
     "socks",
@@ -20,12 +20,12 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/mscdex/socksv5/raw/master/LICENSE"
+      "url": "https://github.com/phoenix344/socksv5/raw/master/LICENSE"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/mscdex/socksv5.git"
+    "url": "https://github.com/phoenix344/socksv5.git"
   },
   "dependencies": {
     "ip-address": "^5.8.9"
