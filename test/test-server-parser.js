@@ -22,9 +22,9 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05, 0x01, 0x00]));
+      stream.emit('data', Buffer.from([0x05, 0x01, 0x00]));
       assert.deepEqual(methods,
-                       new Buffer([0x00]),
+                       Buffer.from([0x00]),
                        makeMsg(what, 'Unexpected methods: ' + inspect(methods)));
       next();
     },
@@ -42,11 +42,11 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05]));
-      stream.emit('data', new Buffer([0x01]));
-      stream.emit('data', new Buffer([0x00]));
+      stream.emit('data', Buffer.from([0x05]));
+      stream.emit('data', Buffer.from([0x01]));
+      stream.emit('data', Buffer.from([0x00]));
       assert.deepEqual(methods,
-                       new Buffer([0x00]),
+                       Buffer.from([0x00]),
                        makeMsg(what, 'Unexpected methods: ' + inspect(methods)));
       next();
     },
@@ -64,7 +64,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x04, 0x01, 0x00]));
+      stream.emit('data', Buffer.from([0x04, 0x01, 0x00]));
       assert(errors.length === 1
              && /Incompatible SOCKS protocol version: 4/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));
@@ -84,7 +84,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x05, 0x00]));
+      stream.emit('data', Buffer.from([0x05, 0x00]));
       assert(errors.length === 1
              && /empty methods list/i.test(errors[0].message),
              makeMsg(what, 'Error(s) mismatch'));
@@ -105,7 +105,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x01,
                                       0x00,
                                       0x01,
@@ -135,7 +135,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x02,
                                       0x00,
                                       0x01,
@@ -165,7 +165,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x03,
                                       0x00,
                                       0x01,
@@ -195,7 +195,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x01,
                                       0x00,
                                       0x04,
@@ -228,7 +228,7 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x01,
                                       0x00,
                                       0x03,
@@ -259,14 +259,14 @@ var tests = [
       }).on('error', function(err) {
         assert(false, makeMsg(what, 'Unexpected error: ' + err));
       });
-      stream.emit('data', new Buffer([0x05]));
-      stream.emit('data', new Buffer([0x01, 0x00, 0x03]));
-      stream.emit('data', new Buffer([0x0A]));
-      stream.emit('data', new Buffer([0x6E, 0x6F, 0x64, 0x65, 0x6A, 0x73]));
-      stream.emit('data', new Buffer([0x2E, 0x6F, 0x72]));
-      stream.emit('data', new Buffer([0x67]));
-      stream.emit('data', new Buffer([0x05]));
-      stream.emit('data', new Buffer([0x39]));
+      stream.emit('data', Buffer.from([0x05]));
+      stream.emit('data', Buffer.from([0x01, 0x00, 0x03]));
+      stream.emit('data', Buffer.from([0x0A]));
+      stream.emit('data', Buffer.from([0x6E, 0x6F, 0x64, 0x65, 0x6A, 0x73]));
+      stream.emit('data', Buffer.from([0x2E, 0x6F, 0x72]));
+      stream.emit('data', Buffer.from([0x67]));
+      stream.emit('data', Buffer.from([0x05]));
+      stream.emit('data', Buffer.from([0x39]));
       assert.deepEqual(request,
                        { cmd: 'connect',
                          srcAddr: undefined,
@@ -291,7 +291,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x04,
+      stream.emit('data', Buffer.from([0x04,
                                       0x01,
                                       0x00,
                                       0x01,
@@ -317,7 +317,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0xFE,
                                       0x00,
                                       0x01,
@@ -343,7 +343,7 @@ var tests = [
       }).on('error', function(err) {
         errors.push(err);
       });
-      stream.emit('data', new Buffer([0x05,
+      stream.emit('data', Buffer.from([0x05,
                                       0x01,
                                       0x00,
                                       0xFF,

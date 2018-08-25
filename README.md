@@ -7,13 +7,13 @@ SOCKS protocol version 5 server and client implementations for node.js
 Requirements
 ============
 
-* [node.js](http://nodejs.org/) -- v0.10.0 or newer
+* [node.js](http://nodejs.org/) -- v10.x or newer
 
 
 Install
 =======
 
-    npm install socksv5
+    npm install @outtacontrol/socks
 
 
 Examples
@@ -22,7 +22,7 @@ Examples
 * Server with no authentication and allowing all connections:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var srv = socks.createServer(function(info, accept, deny) {
   accept();
@@ -37,7 +37,7 @@ srv.useAuth(socks.auth.None());
 * Server with username/password authentication and allowing all (authenticated) connections:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var srv = socks.createServer(function(info, accept, deny) {
   accept();
@@ -54,7 +54,7 @@ srv.useAuth(socks.auth.UserPassword(function(user, password, cb) {
 * Server with no authentication and redirecting all connections to localhost:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var srv = socks.createServer(function(info, accept, deny) {
   info.dstAddr = 'localhost';
@@ -70,7 +70,7 @@ srv.useAuth(socks.auth.None());
 * Server with no authentication and denying all connections not made to port 80:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var srv = socks.createServer(function(info, accept, deny) {
   if (info.dstPort === 80)
@@ -88,7 +88,7 @@ srv.useAuth(socks.auth.None());
 * Server with no authentication, intercepting all connections to port 80, and passing through all others:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var srv = socks.createServer(function(info, accept, deny) {
   if (info.dstPort === 80) {
@@ -117,7 +117,7 @@ srv.useAuth(socks.auth.None());
 * Client with no authentication:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 
 var client = socks.connect({
   host: 'google.com',
@@ -135,7 +135,7 @@ var client = socks.connect({
 * HTTP(s) client requests using a SOCKS Agent:
 
 ```javascript
-var socks = require('socksv5');
+var socks = require('@outtacontrol/socks');
 var http = require('http');
 
 var socksConfig = {
