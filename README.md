@@ -1,3 +1,7 @@
+# Migrated!
+
+This repo has been migrated to its new home in gitlab here: https://gitlab.com/miovision/its/socksv5
+
 Description
 ===========
 

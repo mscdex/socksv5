@@ -1,4 +1,5 @@
-{ "name": "socksv5",
+{
+  "name": "socksv5",
   "version": "0.0.6",
   "author": "Brian White <mscdex@mscdex.net>",
   "description": "SOCKS protocol version 5 server and client implementations for node.js",
@@ -7,13 +8,29 @@
     "test": "node test/test.js"
   },
   "dependencies": {
-    "ipv6": "*"
+    "ipv6": "*",
+    "semver": "7.3.4"
   },
   "bundledDependencies": [
     "ipv6"
   ],
-  "engines": { "node": ">=0.10.0" },
-  "keywords": [ "socks", "socks5", "socksv5", "proxy" ],
-  "licenses": [ { "type": "MIT", "url": "http://github.com/mscdex/socksv5/raw/master/LICENSE" } ],
-  "repository" : { "type": "git", "url": "http://github.com/mscdex/socksv5.git" }
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "keywords": [
+    "socks",
+    "socks5",
+    "socksv5",
+    "proxy"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/mscdex/socksv5/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mscdex/socksv5.git"
+  }
 }
